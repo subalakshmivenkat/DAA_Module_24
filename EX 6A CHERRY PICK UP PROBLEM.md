@@ -11,29 +11,44 @@ Starting at the position (0, 0) and reaching (n - 1, n - 1) by moving right or d
 After reaching (n - 1, n - 1), returning to (0, 0) by moving left or up through valid path cells.
 When passing through a path cell containing a cherry, you pick it up, and the cell becomes an empty cell 0. If there is no valid path between (0, 0) and (n - 1, n - 1), then no cherries can be collected.
 
-
-
 ## Algorithm
-1. 
-2. 
-3. 
-4.  
-5.   
-
+1. Initialize the DP table:Create a 2D dp array of size n x n (where n is the size of the grid) to store 
+the maximum cherries that can be collected starting from each cell.
+2. Iterate from the bottom-right corner:Start iterating the grid from the bottom-right corner (grid[n-1][n-1]) to the top-left corner (grid[0][0]) in reverse order.
+3. Base case:The value at the bottom-right corner (dp[n-1][n-1]) is simply the value in the grid[n-1][n-1], as that's where the collection ends.
+4. For the last row and last column:For the last row, move from right to left. Each cell collects cherries from the current grid cell and the cell to the right.
+5. For the last column, move from bottom to top. Each cell collects cherries from the current grid cell and the cell below.
 ## Program:
 ```
 /*
 To implement the program for Cherry pickup problem.
-
-
-Developed by: 
-Register Number:  
+Developed by: Subalakshmi V
+Register Number:  212222040162
 */
 ```
-
+```
+class Solution:
+    def cherryPickup(self, grid):
+        n = len(grid)
+        dp = [[0]*n for _ in range(n)]
+        for i in range(n-1,-1,-1):
+            for j in range(n-1,-1,-1):
+                if i == n-1 and j==n-1:
+                    dp[i][j] = grid[i][j]
+                elif i ==n-1:
+                    dp[i][j] = grid[i][j]+dp[i][j+1]
+                elif j == n-1:
+                    dp[i][j] = grid[i][j] + dp[i+1][j]
+                else:
+                    dp[i][j] = grid[i][j] + max(dp[i][j+1],dp[i+1][j])
+                    
+        return max(0,dp[0][0])+1             
+obj=Solution()
+grid=[[0,1,-1],[1,0,-1],[1,1,1]]        
+print(obj.cherryPickup(grid))
+```
 ## Output:
-
-
+![image](https://github.com/user-attachments/assets/4c19b3c0-01a2-4991-baa3-cf68a664aa39)
 
 ## Result:
 Thus the above program was executed successfully for finding the maximum number of cherries from grid.
